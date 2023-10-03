@@ -11,6 +11,7 @@
 		C03719472ACBC8CB00301BE0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03719462ACBC8CB00301BE0 /* ContentView.swift */; };
 		C03719492ACBC8CC00301BE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03719482ACBC8CC00301BE0 /* Assets.xcassets */; };
 		C037194C2ACBC8CC00301BE0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C037194B2ACBC8CC00301BE0 /* Preview Assets.xcassets */; };
+		C03719572ACBCF1600301BE0 /* AudioJammer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03719562ACBCF1600301BE0 /* AudioJammer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		C03719462ACBC8CB00301BE0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C03719482ACBC8CC00301BE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C037194B2ACBC8CC00301BE0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C03719562ACBCF1600301BE0 /* AudioJammer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioJammer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				C03719442ACBC8CB00301BE0 /* SpeechJammerApp.swift */,
 				C03719462ACBC8CB00301BE0 /* ContentView.swift */,
+				C03719562ACBCF1600301BE0 /* AudioJammer.swift */,
 				C03719482ACBC8CC00301BE0 /* Assets.xcassets */,
 				C037194A2ACBC8CC00301BE0 /* Preview Content */,
 			);
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C03719472ACBC8CB00301BE0 /* ContentView.swift in Sources */,
+				C03719572ACBCF1600301BE0 /* AudioJammer.swift in Sources */,
 				C03719452ACBC8CB00301BE0 /* SpeechJammerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +279,7 @@
 				DEVELOPMENT_TEAM = 5SGZH379X4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Give me your microphone!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +309,7 @@
 				DEVELOPMENT_TEAM = 5SGZH379X4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Give me your microphone!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

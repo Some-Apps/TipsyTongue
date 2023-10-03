@@ -8,16 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isJamming = false
+    @StateObject private var audioJammer = AudioJammer()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        VStack(spacing: 40) {
+            Button(isJamming ? "Stop Jamming" : "Start Jamming") {
+                if isJamming {
+                    audioJammer.stopJamming()
+                } else {
+                    audioJammer.startJamming()
+                }
+                isJamming.toggle()
+            }
         }
         .padding()
     }
 }
+
 
 #Preview {
     ContentView()

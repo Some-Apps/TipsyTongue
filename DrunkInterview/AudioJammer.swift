@@ -9,11 +9,9 @@ import AVFoundation
 
 class AudioJammer: ObservableObject {
     private var audioEngine = AVAudioEngine()
-    private var pitchEffect = AVAudioUnitTimePitch()
     private var delayEffect = AVAudioUnitDelay()
     private var delayChangeTimer: Timer?
     private var volumeChangeTimer: Timer?
-    private var pitchChangeTimer: Timer?
     private var mixer = AVAudioMixerNode()
 
 
@@ -25,7 +23,6 @@ class AudioJammer: ObservableObject {
     deinit {
         delayChangeTimer?.invalidate()
         volumeChangeTimer?.invalidate()
-        pitchChangeTimer?.invalidate()
     }
 
     private func setupAudioSession() {
@@ -55,16 +52,12 @@ class AudioJammer: ObservableObject {
         delayEffect.delayTime = 0.1 // Delay time in seconds
         delayEffect.feedback = 0
         delayEffect.wetDryMix = 100
-        
-        pitchEffect.pitch = 100
 
         audioEngine.attach(delayEffect)
-        audioEngine.attach(pitchEffect)
         audioEngine.attach(mixer)
         
         audioEngine.connect(inputNode, to: delayEffect, format: audioFormat)
-        audioEngine.connect(delayEffect, to: pitchEffect, format: inputFormat)
-        audioEngine.connect(pitchEffect, to: mixer, format: inputFormat)
+        audioEngine.connect(delayEffect, to: mixer, format: audioFormat)
         audioEngine.connect(mixer, to: outputNode, format: audioFormat)
     }
 
@@ -86,11 +79,13 @@ class AudioJammer: ObservableObject {
     func stopJamming() {
         audioEngine.stop()
         delayChangeTimer?.invalidate()
+        volumeChangeTimer?.invalidate()
     }
     
     private func startDelayChangeTimer() {
         // Invalidate the previous timer if it exists
         delayChangeTimer?.invalidate()
+        volumeChangeTimer?.invalidate()
         
         delayChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
             guard let self = self else { return }
@@ -104,13 +99,6 @@ class AudioJammer: ObservableObject {
             
             let randomVolume = Float.random(in: 0.9...1.0)
             self.mixer.outputVolume = randomVolume
-        }
-        
-        pitchChangeTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-            guard let self = self else { return }
-            
-            let randomPitch = Float.random(in: -200...200)
-            self.pitchEffect.pitch = randomPitch
         }
     }
 

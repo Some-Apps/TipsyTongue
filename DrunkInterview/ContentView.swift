@@ -39,11 +39,10 @@ struct ContentView: View {
                     isJamming.toggle()
                 }) {
                     Text(isJamming ? "Stop Interview" : "Start Interview")
-                        .buttonStyle(.borderedProminent)
-                        .tint(isJamming ? .red : .green)
-
                 }
-
+                .buttonStyle(.borderedProminent)
+                .tint(isJamming ? .red : .green)
+                
                 Spacer()
                 HStack {
                     Button("Tip Jar") {

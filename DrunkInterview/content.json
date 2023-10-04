@@ -1,0 +1,86 @@
+{
+    "tongue_twisters": [
+        {
+            "id": 1,
+            "content": "Peter Piper picked a peck of pickled peppers."
+        },
+        {
+            "id": 2,
+            "content": "She sells sea shells by the seashore."
+        },
+        {
+            "id": 3,
+            "content": "How can a clam cram in a clean cream can?"
+        },
+        {
+            "id": 4,
+            "content": "I scream, you scream, we all scream for ice cream!"
+        },
+        {
+            "id": 5,
+            "content": "Fuzzy Wuzzy was a bear, Fuzzy Wuzzy had no hair."
+        },
+        {
+            "id": 6,
+            "content": "A black bug bled black blood. What color blood did the black bug bleed?"
+        },
+        {
+            "id": 7,
+            "content": "A proper copper coffee pot."
+        },
+        {
+            "id": 8,
+            "content": "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+        },
+        {
+            "id": 9,
+            "content": "Six slippery snails slid slowly seaward."
+        },
+        {
+            "id": 10,
+            "content": "The great Greek grape growers grow great Greek grapes."
+        }
+    ],
+    "questions": [
+        {
+            "id": 1,
+            "content": "What experiences in life have shaped your perspective the most?"
+        },
+        {
+            "id": 2,
+            "content": "How do you handle stress or pressure, especially when faced with challenging situations?"
+        },
+        {
+            "id": 3,
+            "content": "Describe a time when you took a risk and what you learned from it."
+        },
+        {
+            "id": 4,
+            "content": "What role does creativity play in your life and how do you nurture it?"
+        },
+        {
+            "id": 5,
+            "content": "If you could change one thing about the world, what would it be and why?"
+        },
+        {
+            "id": 6,
+            "content": "How do you define success, and what steps do you take to achieve it?"
+        },
+        {
+            "id": 7,
+            "content": "Tell me about a time you had to learn something new within a short time. How did you handle it?"
+        },
+        {
+            "id": 8,
+            "content": "How have your goals and ambitions changed over the past five years?"
+        },
+        {
+            "id": 9,
+            "content": "What is the most valuable lesson you've learned from a mistake you made?"
+        },
+        {
+            "id": 10,
+            "content": "If you could meet any historical figure, who would it be and what would you ask them?"
+        }
+    ]
+}

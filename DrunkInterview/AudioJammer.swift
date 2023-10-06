@@ -8,23 +8,121 @@
 import AVFoundation
 
 class AudioJammer: ObservableObject {
-    private var audioEngine = AVAudioEngine()
-    private var delayEffect = AVAudioUnitDelay()
     private var delayChangeTimer: Timer?
     private var volumeChangeTimer: Timer?
+    private var pitchChangeTimer: Timer?
     private var mixer = AVAudioMixerNode()
+    
+    private var recordingEngine = AVAudioEngine()
+    private var playbackEngine = AVAudioEngine()
+    private var playbackNode: AVAudioPlayerNode!
 
+    private var delayEffect = AVAudioUnitDelay()
+    private var pitchEffect = AVAudioUnitTimePitch()
+    
+    private var buffer: AVAudioPCMBuffer? // This will hold the recorded audio samples
+    private var isBufferReadyForPlayback = false // A flag to indicate when there's enough data in the buffer for playback
+    private var playerNode: AVAudioPlayerNode! // This node will play audio from our buffer
+    private var bufferDuration: TimeInterval = 0.1 // Length of time for our buffer, e.g., 0.5 seconds
+    private var bufferWritePosition: AVAudioFramePosition = 0 // This keeps track of where to write next in our buffer
+    private var individualBufferDuration: TimeInterval = 0.1 // Adjust this for desired delay
+
+    
+    private var buffers: [AVAudioPCMBuffer] = []
+    private let numberOfBuffers = 10
+    private var currentBufferIndex = 0
 
     init() {
-        setupAudioSession()
-        setupAudioEngine()
-    }
+            setupAudioSession()
+            setupRecordingEngine()
+            setupPlaybackEngine()
+        }
     
     deinit {
         delayChangeTimer?.invalidate()
         volumeChangeTimer?.invalidate()
+        pitchChangeTimer?.invalidate()
+    }
+    
+    private func setupRecordingEngine() {
+        let inputNode = recordingEngine.inputNode
+        let audioFormat = inputNode.outputFormat(forBus: 0)
+
+        print("Recording channel count:", audioFormat.channelCount)
+
+        // Determine the buffer capacity based on the number of buffers and the desired buffer duration
+//        let bufferSampleFrameCapacity = AVAudioFrameCount(audioFormat.sampleRate * bufferDuration / Double(numberOfBuffers))
+//        let individualBufferDuration: TimeInterval = 0.1 // You can adjust this for desired delay
+        let bufferSampleFrameCapacity = AVAudioFrameCount(audioFormat.sampleRate * individualBufferDuration)
+
+
+        // Initialize the buffers
+        for _ in 0..<numberOfBuffers {
+            let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: bufferSampleFrameCapacity)!
+            buffers.append(buffer)
+        }
+        
+        inputNode.installTap(onBus: 0, bufferSize: bufferSampleFrameCapacity, format: audioFormat) { [weak self] (incomingBuffer, time) in
+            guard let self = self else { return }
+            
+            let currentBuffer = self.buffers[self.currentBufferIndex]
+            
+            // Copy the incoming data to the current buffer
+            self.copyAudioData(from: incomingBuffer, fromFrame: 0, to: currentBuffer, toFrame: AVAudioFramePosition(currentBuffer.frameLength), count: incomingBuffer.frameLength)
+            
+            currentBuffer.frameLength += incomingBuffer.frameLength
+            
+            // If the current buffer is full, schedule it for playback
+            if currentBuffer.frameLength == currentBuffer.frameCapacity {
+                self.playbackNode.scheduleBuffer(currentBuffer, completionHandler: nil)
+                if !self.playbackNode.isPlaying {
+                    self.playbackNode.play()
+                }
+                // Move to the next buffer and reset its frame length
+                self.currentBufferIndex = (self.currentBufferIndex + 1) % self.numberOfBuffers
+                self.buffers[self.currentBufferIndex].frameLength = 0
+            }
+        }
     }
 
+    
+    private func copyAudioData(from sourceBuffer: AVAudioPCMBuffer, fromFrame: AVAudioFramePosition, to destinationBuffer: AVAudioPCMBuffer, toFrame: AVAudioFramePosition, count: AVAudioFrameCount) {
+        let sourceData = sourceBuffer.floatChannelData!
+        let destinationData = destinationBuffer.floatChannelData!
+        
+        for channelIndex in 0..<Int(sourceBuffer.format.channelCount) {
+            let sourceChannel = sourceData[channelIndex]
+            let destinationChannel = destinationData[channelIndex]
+            
+            for frameIndex in 0..<Int(count) {
+                destinationChannel[frameIndex + Int(toFrame)] = sourceChannel[frameIndex + Int(fromFrame)]
+            }
+        }
+    }
+
+    
+    private func setupPlaybackEngine() {
+        playbackNode = AVAudioPlayerNode()
+        playbackEngine.attach(playbackNode)
+        playbackEngine.attach(pitchEffect)
+        playbackEngine.attach(mixer)
+        playbackEngine.attach(delayEffect)
+        
+        delayEffect.delayTime = 0
+        delayEffect.feedback = 0
+        delayEffect.wetDryMix = 100
+        
+        pitchEffect.pitch = 0
+        
+        let recordingAudioFormat = recordingEngine.inputNode.outputFormat(forBus: 0)
+        
+        playbackEngine.connect(playbackNode, to: delayEffect, format: recordingAudioFormat)
+        playbackEngine.connect(delayEffect, to: mixer, format: recordingAudioFormat)
+        playbackEngine.connect(mixer, to: pitchEffect, format: recordingAudioFormat)
+        playbackEngine.connect(pitchEffect, to: playbackEngine.mainMixerNode, format: recordingAudioFormat)
+    }
+
+    
     private func setupAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
@@ -34,72 +132,67 @@ class AudioJammer: ObservableObject {
             print("Failed to set up audio session:", error)
         }
     }
-
-    private func setupAudioEngine() {
-        let inputNode = audioEngine.inputNode
-        let outputNode = audioEngine.outputNode
-        
-        // Get the format from the input node
-        let inputFormat = inputNode.outputFormat(forBus: 0)
-        
-        // Get the format from the output node
-        let outputFormat = outputNode.inputFormat(forBus: 0)
-
-        // Get the format from the input node
-        let audioFormat = inputNode.outputFormat(forBus: 0)
-
-        // Configure the delay effect
-        delayEffect.delayTime = 0.1 // Delay time in seconds
-        delayEffect.feedback = 0
-        delayEffect.wetDryMix = 100
-
-        audioEngine.attach(delayEffect)
-        audioEngine.attach(mixer)
-        
-        audioEngine.connect(inputNode, to: delayEffect, format: audioFormat)
-        audioEngine.connect(delayEffect, to: mixer, format: audioFormat)
-        audioEngine.connect(mixer, to: outputNode, format: audioFormat)
-    }
-
-
+    
     func startJamming() {
-        startDelayChangeTimer()
-        let audioSession = AVAudioSession.sharedInstance()
-        if audioSession.isInputAvailable {
-            do {
-                try audioEngine.start()
-            } catch {
-                print("Error starting audio engine:", error.localizedDescription)
-            }
-        } else {
-            print("Audio input not available")
-        }
-    }
+            startDelayChangeTimer()
+            startVolumeChangeTimer()
+            startPitchChangeTimer()
 
+            // Start recording and playback engines here:
+        // Check if engines are running before trying to start them
+            if !recordingEngine.isRunning {
+                do {
+                    try recordingEngine.start()
+                } catch {
+                    print("Error starting recording engine:", error)
+                }
+            }
+            
+            if !playbackEngine.isRunning {
+                do {
+                    try playbackEngine.start()
+                } catch {
+                    print("Error starting playback engine:", error)
+                }
+            }
+    }
+    
     func stopJamming() {
-        audioEngine.stop()
+        recordingEngine.stop()
+        playbackEngine.stop()
         delayChangeTimer?.invalidate()
         volumeChangeTimer?.invalidate()
+        pitchChangeTimer?.invalidate() // Invalidate the pitch change timer
     }
     
     private func startDelayChangeTimer() {
         // Invalidate the previous timer if it exists
         delayChangeTimer?.invalidate()
-        volumeChangeTimer?.invalidate()
         
-        delayChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
+        delayChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             // Randomly change the delay time between 0.05 and 0.2 seconds
-            let randomDelay = Double.random(in: 0.1...0.25)
+            let randomDelay = Double.random(in: 0.05...0.2)
             self.delayEffect.delayTime = randomDelay
         }
-        
-        volumeChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.9, repeats: true) { [weak self] timer in
+    }
+    
+    private func startVolumeChangeTimer() {
+        volumeChangeTimer?.invalidate()
+        volumeChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             
-            let randomVolume = Float.random(in: 0.9...1.0)
+            let randomVolume = Float.random(in: 0.7...1.0)
             self.mixer.outputVolume = randomVolume
         }
     }
-
+    
+    private func startPitchChangeTimer() { // 4. Add a timer for pitch change
+        pitchChangeTimer?.invalidate()
+        pitchChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { [weak self] timer in
+            guard let self = self else { return }
+            let randomPitch = Float.random(in: -200...300)
+            self.pitchEffect.pitch = randomPitch
+        }
+    }
 }

@@ -21,11 +21,12 @@ struct ContentView: View {
 
             // Content
             VStack(spacing: 30) {
-                Text("Drunk Interview")
+                Text("Tipsy Tongue Speech Jammer")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.top)
-                Text("Turn up the volume as high as you are comfortable and have your friend interview you with open ended questions.")
+                    .multilineTextAlignment(.center)
+                Text("Turn up the volume as high as you are comfortable with, tap \"Start Jamming\", and try to speak.")
                     .font(.headline)
                     .padding(.horizontal)
                 Spacer()
@@ -38,8 +39,9 @@ struct ContentView: View {
                     }
                     isJamming.toggle()
                 }) {
-                    Text(isJamming ? "Stop Interview" : "Start Interview")
+                    Text(isJamming ? "Stop Jamming" : "Start Jamming")
                 }
+                .font(.title)
                 .buttonStyle(.borderedProminent)
                 .tint(isJamming ? .red : .green)
                 

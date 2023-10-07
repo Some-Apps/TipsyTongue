@@ -6,26 +6,38 @@
 //
 
 import SwiftUI
-//import FirebaseStorage
 
 struct ContentView: View {
     @State private var isJamming = false
     @State private var showTipJar = false
-    @StateObject private var audioJammer = AudioJammer()
+    @State private var showOptions = false
+    @State private var resetJammer = false
+
+    @State private var audioJammer: AudioJammer? = AudioJammer()
+
+
 
     var body: some View {
+        let jammer = ObservedObject(wrappedValue: audioJammer!)
+
         ZStack {
             // Background
             AnimatedBackgroundView()
                 .ignoresSafeArea(.all)
 
             // Content
-            VStack(spacing: 30) {
-                Text("Tipsy Tongue Speech Jammer")
+            VStack {
+                Text("Tipsy Tongue: Speech Jammer")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .padding(.top)
+                    .padding()
                     .multilineTextAlignment(.center)
+                    .onChange(of: resetJammer) { newValue in
+                        if newValue {
+                            audioJammer = AudioJammer()
+                        }
+                    }
+
                 Text("Turn up the volume as high as you are comfortable with, tap \"Start Jamming\", and try to speak.")
                     .font(.headline)
                     .padding(.horizontal)
@@ -33,22 +45,30 @@ struct ContentView: View {
 
                 Button(action: {
                     if isJamming {
-                        audioJammer.stopJamming()
+                        audioJammer?.stopJamming()
+                        audioJammer = AudioJammer()
                     } else {
-                        audioJammer.startJamming()
+                        audioJammer?.startJamming()
                     }
                     isJamming.toggle()
                 }) {
                     Text(isJamming ? "Stop Jamming" : "Start Jamming")
                 }
+
                 .font(.title)
                 .buttonStyle(.borderedProminent)
                 .tint(isJamming ? .red : .green)
-                
+    
                 Spacer()
                 HStack {
                     Button("Tip Jar") {
                         showTipJar = true
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.white)
+                    Spacer()
+                    Button("Options") {
+                        showOptions = true
                     }
                     .buttonStyle(.bordered)
                     .tint(.white)
@@ -59,6 +79,9 @@ struct ContentView: View {
         .sheet(isPresented: $showTipJar) {
             TipJarView()
         }
+        .sheet(isPresented: $showOptions) {
+            OptionsView()
+        }
     }
 }
 
@@ -67,15 +90,18 @@ struct AnimatedBackgroundView: View {
     
     var body: some View {
         LinearGradient(gradient: Gradient(colors: [animate ? .blue : .purple, animate ? .purple : .blue]), startPoint: .topLeading, endPoint: .bottomTrailing)
-            .animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true))
+            .animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true), value: animate)
             .onAppear {
-                self.animate.toggle()
+                withAnimation {
+                    self.animate.toggle()
+                }
             }
             .ignoresSafeArea()
     }
 }
 
 
-//#Preview {
-//    ContentView()
-//}
+
+#Preview {
+    ContentView()
+}

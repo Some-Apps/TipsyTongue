@@ -15,7 +15,7 @@ class TipJarViewModel: ObservableObject {
     func fetchProducts() {
         Task.init {
             do {
-                let products = try await Product.products(for: ["SmallTip", "MediumTip", "LargeTip"])
+                let products = try await Product.products(for: ["SpeechJammer_smallTip", "SpeechJammer_mediumTip", "SpeechJammer_largeTip"])
                 DispatchQueue.main.async {
                     self.products = products
                 }

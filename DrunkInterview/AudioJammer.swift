@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import SwiftUI
 
 class AudioJammer: ObservableObject {
     private var delayChangeTimer: Timer?
@@ -31,6 +32,16 @@ class AudioJammer: ObservableObject {
     private var buffers: [AVAudioPCMBuffer] = []
     private let numberOfBuffers = 10
     private var currentBufferIndex = 0
+    
+    @AppStorage("delayChangeInterval") var delayChangeInterval = 0.5
+    @AppStorage("pitchChangeInterval") var pitchChangeInterval = 0.6
+    @AppStorage("volumeChangeInterval") var volumeChangeInterval = 0.7
+    @AppStorage("minimumDelay") var minimumDelay = 0.0
+    @AppStorage("maximumDelay") var maximumDelay = 0.25
+    @AppStorage("minimumPitch") var minimumPitch = -100
+    @AppStorage("maximumPitch") var maximumPitch = 100
+    @AppStorage("minimumVolume") var minimumVolume = 0.5
+    @AppStorage("maximumVolume") var maximumVolume = 1.0
 
     init() {
             setupAudioSession()
@@ -42,7 +53,13 @@ class AudioJammer: ObservableObject {
         delayChangeTimer?.invalidate()
         volumeChangeTimer?.invalidate()
         pitchChangeTimer?.invalidate()
+        
+        recordingEngine.stop()
+        playbackEngine.stop()
+        
+        recordingEngine.inputNode.removeTap(onBus: 0)
     }
+
     
     private func setupRecordingEngine() {
         let inputNode = recordingEngine.inputNode
@@ -116,10 +133,10 @@ class AudioJammer: ObservableObject {
         
         let recordingAudioFormat = recordingEngine.inputNode.outputFormat(forBus: 0)
         
-        playbackEngine.connect(playbackNode, to: delayEffect, format: recordingAudioFormat)
-        playbackEngine.connect(delayEffect, to: mixer, format: recordingAudioFormat)
-        playbackEngine.connect(mixer, to: pitchEffect, format: recordingAudioFormat)
-        playbackEngine.connect(pitchEffect, to: playbackEngine.mainMixerNode, format: recordingAudioFormat)
+        playbackEngine.connect(playbackNode, to: pitchEffect, format: recordingAudioFormat)
+        playbackEngine.connect(pitchEffect, to: mixer, format: recordingAudioFormat)
+        playbackEngine.connect(mixer, to: delayEffect, format: recordingAudioFormat)
+        playbackEngine.connect(delayEffect, to: playbackEngine.mainMixerNode, format: recordingAudioFormat)
     }
 
     
@@ -163,35 +180,36 @@ class AudioJammer: ObservableObject {
         delayChangeTimer?.invalidate()
         volumeChangeTimer?.invalidate()
         pitchChangeTimer?.invalidate() // Invalidate the pitch change timer
+
     }
     
     private func startDelayChangeTimer() {
         // Invalidate the previous timer if it exists
         delayChangeTimer?.invalidate()
         
-        delayChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true) { [weak self] timer in
+        delayChangeTimer = Timer.scheduledTimer(withTimeInterval: delayChangeInterval, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             // Randomly change the delay time between 0.05 and 0.2 seconds
-            let randomDelay = Double.random(in: 0.05...0.2)
+            let randomDelay = Double.random(in: minimumDelay...maximumDelay)
             self.delayEffect.delayTime = randomDelay
         }
     }
     
     private func startVolumeChangeTimer() {
         volumeChangeTimer?.invalidate()
-        volumeChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: true) { [weak self] timer in
+        volumeChangeTimer = Timer.scheduledTimer(withTimeInterval: volumeChangeInterval, repeats: true) { [weak self] timer in
             guard let self = self else { return }
             
-            let randomVolume = Float.random(in: 0.7...1.0)
+            let randomVolume = Float.random(in: Float(minimumVolume)...Float(maximumVolume))
             self.mixer.outputVolume = randomVolume
         }
     }
     
     private func startPitchChangeTimer() { // 4. Add a timer for pitch change
         pitchChangeTimer?.invalidate()
-        pitchChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { [weak self] timer in
+        pitchChangeTimer = Timer.scheduledTimer(withTimeInterval: pitchChangeInterval, repeats: true) { [weak self] timer in
             guard let self = self else { return }
-            let randomPitch = Float.random(in: -200...300)
+            let randomPitch = Float.random(in: Float(minimumPitch)...Float(maximumPitch))
             self.pitchEffect.pitch = randomPitch
         }
     }

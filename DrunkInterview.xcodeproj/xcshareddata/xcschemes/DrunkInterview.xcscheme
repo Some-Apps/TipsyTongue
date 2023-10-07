@@ -50,7 +50,7 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <StoreKitConfigurationFileReference
-         identifier = "../../DrunkInterview/Drunk Interview: Speech Jammer.storekit">
+         identifier = "../../DrunkInterview/Tipsy Tongue: Speech Jammer.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

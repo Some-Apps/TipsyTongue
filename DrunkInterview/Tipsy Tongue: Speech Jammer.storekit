@@ -1,5 +1,5 @@
 {
-  "identifier" : "DBCF97F5",
+  "identifier" : "27571A32",
   "nonRenewingSubscriptions" : [
 
   ],
@@ -7,7 +7,7 @@
     {
       "displayPrice" : "9.99",
       "familyShareable" : false,
-      "internalID" : "6468613421",
+      "internalID" : "6468891828",
       "localizations" : [
         {
           "description" : "large tip",
@@ -15,14 +15,14 @@
           "locale" : "en_US"
         }
       ],
-      "productID" : "LargeTip",
+      "productID" : "SpeechJammer_largeTip",
       "referenceName" : "Large Tip",
       "type" : "Consumable"
     },
     {
       "displayPrice" : "4.99",
       "familyShareable" : false,
-      "internalID" : "6468613538",
+      "internalID" : "6468891771",
       "localizations" : [
         {
           "description" : "medium tip",
@@ -30,14 +30,14 @@
           "locale" : "en_US"
         }
       ],
-      "productID" : "MediumTip",
+      "productID" : "SpeechJammer_mediumTip",
       "referenceName" : "Medium Tip",
       "type" : "Consumable"
     },
     {
       "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "6468613537",
+      "internalID" : "6468891632",
       "localizations" : [
         {
           "description" : "small tip",
@@ -45,16 +45,16 @@
           "locale" : "en_US"
         }
       ],
-      "productID" : "SmallTip",
+      "productID" : "SpeechJammer_smallTip",
       "referenceName" : "Small Tip",
       "type" : "Consumable"
     }
   ],
   "settings" : {
-    "_applicationInternalID" : "6468611753",
+    "_applicationInternalID" : "6468891787",
     "_developerTeamID" : "5SGZH379X4",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 718070931.31225502,
+    "_lastSynchronizedDate" : 718314592.34553301,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [

@@ -10,21 +10,31 @@ import StoreKit
 
 struct TipJarView: View {
     @StateObject var viewModel = TipJarViewModel()
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
-//            AnimatedBackgroundView()
-//                .ignoresSafeArea(.all)
+            AnimatedBackgroundView()
+                .ignoresSafeArea(.all)
             
             VStack {
                 Text("Tip Jar")
-                    .font(.largeTitle)
+                    .font(.title)
                     .bold()
                 
                 ForEach(viewModel.products.sorted(by: { $0.displayPrice < $1.displayPrice }), id: \.self) { product in
-                    TipOption(viewModel: viewModel, option: product.displayName, optionPrice: product.displayPrice, product: product)
+                    Button {
+                        viewModel.purchase(product: product)
+                    } label: {
+                        HStack {
+                            Text(product.displayName)
+                            
+                            Text(product.displayPrice)
+                        }
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.primary)
                 }
-
             }
             .padding()
 
@@ -32,40 +42,6 @@ struct TipJarView: View {
         .onAppear {
             viewModel.fetchProducts()
         }
-    }
-}
-
-struct TipOption: View {
-    @ObservedObject var viewModel: TipJarViewModel
-
-    let option: String
-    let optionPrice: String
-    let product: Product
-    
-    var body: some View {
-        Button {
-            viewModel.purchase(product: product)
-        } label: {
-            ZStack {
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(.thickMaterial)
-                    .frame(maxHeight: 100)
-                
-                VStack {
-                    HStack {
-                        Spacer()
-                        Text(option)
-                        Spacer()
-                        Text(optionPrice)
-                        Spacer()
-                    }
-                    .font(.title3)
-                    .bold()
-                    .padding()
-                }
-            }
-        }
-        .padding(.horizontal)
     }
 }
 

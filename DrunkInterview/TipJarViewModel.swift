@@ -11,6 +11,8 @@ import Foundation
 
 class TipJarViewModel: ObservableObject {
     @Published var products: [Product] = []
+    @Published var productPurchased = false
+    @Published var showThankYou = false
     
     func fetchProducts() {
         Task.init {
@@ -35,6 +37,7 @@ class TipJarViewModel: ObservableObject {
                     switch verification {
                     case .verified(let transaction):
                         print(transaction.productID)
+                        print("Poduct Purchased!")
                     case .unverified(_):
                         break
                     }

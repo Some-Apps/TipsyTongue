@@ -8,6 +8,7 @@
 import AlertToast
 import FirebaseFirestore
 import SwiftUI
+import StoreKit
 
 struct ContentView: View {
 //    @ObservedObject var viewModel = TipJarViewModel()
@@ -88,6 +89,10 @@ struct ContentView: View {
                         showTipJar = true
                     }
                     Spacer()
+                    Button("Rate App") {
+                        SKStoreReviewController.requestReview()
+                    }
+                    Spacer()
                     Button("Mixer") {
                         showOptions = true
                     }
@@ -104,9 +109,6 @@ struct ContentView: View {
         .sheet(isPresented: $showOptions) {
             OptionsView()
         }
-//        .toast(isPresenting: $viewModel.showThankYou) {
-//            AlertToast(displayMode: .alert, type: .regular, title: "Thank You!")
-//        }
     }
     
     func getRandomPrompt(from collectionName: String) {
@@ -143,7 +145,6 @@ struct ContentView: View {
             }
         }
     }
-
 }
 
 struct AnimatedBackgroundView: View {

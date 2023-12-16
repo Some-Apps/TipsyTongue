@@ -21,7 +21,6 @@ struct ContentView: View {
     @State private var audioJammer: AudioJammer? = AudioJammer()
 
 
-
     var body: some View {
         let jammer = ObservedObject(wrappedValue: audioJammer!)
 

@@ -5,178 +5,148 @@
 //  Created by Jared Jones on 10/2/23.
 //
 
-import AlertToast
 import FirebaseFirestore
 import SwiftUI
-import StoreKit
-
 struct ContentView: View {
-//    @ObservedObject var viewModel = TipJarViewModel()
+    @Environment(\.requestReview) private var requestReview
     @State private var tongueTwisterPrompts = [String]()
     @State private var openEndedPrompts = [String]()
-
     @State private var isJamming = false
-    @State private var showTipJar = false
+    @State private var showHelp = false
     @State private var showOptions = false
     @State private var resetJammer = false
     @AppStorage("currentPrompt") var currentPrompt = "Peter Piper picked a peck of pickled peppers. A peck of pickled peppers Peter Piper picked. If Peter Piper picked a peck of pickled peppers, Where’s the peck of pickled peppers Peter Piper picked?"
+    @AppStorage("currentPromptCategory") var currentPromptCategory = "Tongue Twister"
     @State private var audioJammer: AudioJammer? = AudioJammer()
-
-
+    let collections = ["Tongue Twisters", "Open Ended"]
+    
+    
     var body: some View {
         let jammer = ObservedObject(wrappedValue: audioJammer!)
-
-        ZStack {
-            // Background
-            AnimatedBackgroundView()
-                .ignoresSafeArea(.all)
-
-            // Content
-            VStack {
-                Text("Tipsy Tongue: Speech Jammer")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding()
-                    .multilineTextAlignment(.center)
-                    .onChange(of: resetJammer) { newValue in
-                        if newValue {
-                            audioJammer = AudioJammer()
-                        }
-                    }
-                Text("Turn up the volume as high as you are comfortable with, tap \"Start Jamming\", and try to speak. (Make sure to use earbuds or headphones)")
-                    .font(.headline)
-                    .padding()
-                    .multilineTextAlignment(.center)
-                Spacer()
-                Button(action: {
-                    if isJamming {
-                        audioJammer?.stopJamming()
-                        audioJammer = AudioJammer()
-                    } else {
-                        audioJammer?.startJamming()
-                    }
-                    isJamming.toggle()
-                }) {
-                    Label(isJamming ? "Stop Jamming" : "Start Jamming", systemImage: "mic")
+        VStack {
+            HStack {
+                Button {
+                    showHelp = true
+                } label: {
+                    Image(systemName: "questionmark.app")
                 }
-                .font(.title)
-                .bold()
-                .buttonStyle(.bordered)
-                .tint(isJamming ? .red : .green)
+                .padding([.top, .leading])
+                .padding(.leading)
+                
                 Spacer()
-                VStack {
-                    
-                    HStack {
-                        Button("Tongue Twister") {
-                            getRandomPrompt(from: "Tongue Twisters")
-                        }
-                        Button("Open Ended Prompt") {
-                            getRandomPrompt(from: "Open Ended Questions")
-                        }
-                    }
-                    .buttonStyle(.bordered)
-                    .tint(.primary)
+                Button {
+                    showOptions = true
+                } label: {
+                    Image(systemName: "slider.vertical.3")
+                }
+                .padding([.top, .trailing])
+                .padding(.trailing)
+            }
+            .ignoresSafeArea()
+            .fontWeight(.black)
+            .font(.title)
+            
+            Spacer()
+            
+            Button(action: {
+                if isJamming {
+                    audioJammer?.stopJamming()
+                    audioJammer = AudioJammer()
+                } else {
+                    audioJammer?.startJamming()
+                }
+                isJamming.toggle()
+            }) {
+                Label(isJamming ? "Stop Jamming" : "Start Jamming", systemImage: "mic")
+            }
+            .zIndex(1)
+            .font(.largeTitle)
+            .fontWeight(.black)
+            .buttonStyle(.bordered)
+            .tint(isJamming ? .red : .green)
+            .onChange(of: resetJammer) { newValue in
+                if newValue {
+                    audioJammer = AudioJammer()
+                }
+            }
+            Spacer()
+            Button {
+                getRandomPrompt(from: collections.randomElement()!)
+            } label: {
+                VStack(spacing: 10) {
+                    Text(currentPromptCategory)
+                        .font(.title2)
+                        .underline()
+                        .bold()
+                        .foregroundStyle(.secondary)
                     Text(currentPrompt)
-                        .frame(maxWidth: .infinity, maxHeight: 200)
-                        .padding()
-                        .background {
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(.thinMaterial)
-                                .frame(height: 200)
-                        }
+                        .font(.title3)
+                        .frame(maxWidth: .infinity)
                 }
-                HStack {
-                    Button("Tip Jar") {
-                        showTipJar = true
-                    }
-                    Spacer()
-                    Button("Rate App") {
-                        if let url = URL(string: "https://apps.apple.com/app/id6468891787?action=write-review") {
-                            UIApplication.shared.open(url)
-                        }
-                    }
-                    Spacer()
-                    Button("Mixer") {
-                        showOptions = true
-                    }
+                .padding(10)
+                .foregroundStyle(.white)
+                .background {
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(.ultraThinMaterial)
                 }
                 .padding()
-                .buttonStyle(.borderless)
-                .tint(.primary)
             }
-            .padding()
         }
+        .background(.white.opacity(0.1))
         .onAppear {
-                   fetchAllPrompts()
-               }
-        .sheet(isPresented: $showTipJar) {
-            TipJarView()
+            fetchAllPrompts()
+        }
+        .sheet(isPresented: $showHelp) {
+            HelpView()
         }
         .sheet(isPresented: $showOptions) {
             OptionsView()
         }
+        
+    }
+    
+    private func presentReview() {
+        Task {
+            try await Task.sleep(for: .seconds(2))
+            await requestReview()
+        }
     }
     
     func fetchAllPrompts() {
-            let db = Firestore.firestore()
-            db.collection("Tongue Twisters").getDocuments { (snapshot, error) in
-                if let documents = snapshot?.documents {
-                    self.tongueTwisterPrompts = documents.compactMap { $0.data()["prompt"] as? String }
-                }
+        let db = Firestore.firestore()
+        db.collection("Tongue Twisters").getDocuments { (snapshot, error) in
+            if let documents = snapshot?.documents {
+                self.tongueTwisterPrompts = documents.compactMap { $0.data()["prompt"] as? String }
             }
+        }
         db.collection("Open Ended Questions").getDocuments { (snapshot, error) in
             if let documents = snapshot?.documents {
                 self.openEndedPrompts = documents.compactMap { $0.data()["prompt"] as? String }
             }
         }
-        }
+    }
     
     func getRandomPrompt(from collectionName: String) {
-        if collectionName == "Tongue Twisters" {
-            let filteredPrompts = tongueTwisterPrompts.filter { $0 != self.currentPrompt }
-
-            guard !filteredPrompts.isEmpty else {
-                print("No other prompts available in \(collectionName)")
-                return
+        let prompts = collectionName == "Tongue Twisters" ? tongueTwisterPrompts : openEndedPrompts
+        let filteredPrompts = prompts.filter { $0 != self.currentPrompt }
+        
+        if filteredPrompts.isEmpty {
+            print("No other prompts available in \(collectionName)")
+            DispatchQueue.main.async {
+                // You can set a default prompt here or provide some UI feedback
+                self.currentPrompt = "No more prompts available."
             }
-
-            // Get a random prompt
-            if let randomPrompt = filteredPrompts.randomElement() {
-                DispatchQueue.main.async {
-                    self.currentPrompt = randomPrompt
-                }
-            }
-        } else if collectionName == "Open Ended Questions" {
-            let filteredPrompts = openEndedPrompts.filter { $0 != self.currentPrompt }
-
-            guard !filteredPrompts.isEmpty else {
-                print("No other prompts available in \(collectionName)")
-                return
-            }
-
-            // Get a random prompt
-            if let randomPrompt = filteredPrompts.randomElement() {
-                DispatchQueue.main.async {
-                    self.currentPrompt = randomPrompt
-                }
-            }
+            return
         }
-            
-        }
-}
-
-struct AnimatedBackgroundView: View {
-    @State private var animate = false
-    
-    var body: some View {
-        LinearGradient(gradient: Gradient(colors: [animate ? .blue : .purple, animate ? .purple : .blue]), startPoint: .topLeading, endPoint: .bottomTrailing)
-            .animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true), value: animate)
-            .onAppear {
-                withAnimation {
-                    self.animate.toggle()
-                }
+        
+        if let randomPrompt = filteredPrompts.randomElement() {
+            DispatchQueue.main.async {
+                self.currentPrompt = randomPrompt
+                self.currentPromptCategory = collectionName == "Tongue Twisters" ? "Tongue Twister" : "Open Ended"
             }
-            .ignoresSafeArea()
+        } else {
+            print("Error selecting a random prompt from \(collectionName)")
+        }
     }
 }
 

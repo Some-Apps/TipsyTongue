@@ -25,6 +25,7 @@
 		C0D2ED682ACCD477007F7052 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D2ED672ACCD477007F7052 /* StoreKit.framework */; };
 		C0D2ED6A2ACCD49B007F7052 /* TipJarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2ED692ACCD49A007F7052 /* TipJarViewModel.swift */; };
 		C0D2ED6C2ACCD570007F7052 /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D2ED6B2ACCD570007F7052 /* TipJarView.swift */; };
+		C0FFA1B42B324B7B00D71021 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFA1B32B324B7B00D71021 /* HelpView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		C0D2ED672ACCD477007F7052 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C0D2ED692ACCD49A007F7052 /* TipJarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarViewModel.swift; sourceTree = "<group>"; };
 		C0D2ED6B2ACCD570007F7052 /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
+		C0FFA1B32B324B7B00D71021 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				C03719442ACBC8CB00301BE0 /* DrunkInterviewApp.swift */,
 				C03719462ACBC8CB00301BE0 /* ContentView.swift */,
 				C073E4452AD0875800C1A103 /* OptionsView.swift */,
+				C0FFA1B32B324B7B00D71021 /* HelpView.swift */,
 				C03719562ACBCF1600301BE0 /* AudioJammer.swift */,
 				C0D2ED692ACCD49A007F7052 /* TipJarViewModel.swift */,
 				C0D2ED6B2ACCD570007F7052 /* TipJarView.swift */,
@@ -203,6 +206,7 @@
 				C03719472ACBC8CB00301BE0 /* ContentView.swift in Sources */,
 				C0D2ED6C2ACCD570007F7052 /* TipJarView.swift in Sources */,
 				C03719572ACBCF1600301BE0 /* AudioJammer.swift in Sources */,
+				C0FFA1B42B324B7B00D71021 /* HelpView.swift in Sources */,
 				C073E4462AD0875800C1A103 /* OptionsView.swift in Sources */,
 				C0D2ED6A2ACCD49B007F7052 /* TipJarViewModel.swift in Sources */,
 				C03719452ACBC8CB00301BE0 /* DrunkInterviewApp.swift in Sources */,
@@ -337,7 +341,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"DrunkInterview/Preview Content\"";
 				DEVELOPMENT_TEAM = 5SGZH379X4;
 				ENABLE_PREVIEWS = YES;
@@ -370,7 +374,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"DrunkInterview/Preview Content\"";
 				DEVELOPMENT_TEAM = 5SGZH379X4;
 				ENABLE_PREVIEWS = YES;

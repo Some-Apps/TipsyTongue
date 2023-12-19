@@ -12,6 +12,8 @@ import StoreKit
 
 struct ContentView: View {
 //    @ObservedObject var viewModel = TipJarViewModel()
+    @State private var tongueTwisterPrompts = [String]()
+    @State private var openEndedPrompts = [String]()
 
     @State private var isJamming = false
     @State private var showTipJar = false
@@ -89,7 +91,9 @@ struct ContentView: View {
                     }
                     Spacer()
                     Button("Rate App") {
-                        SKStoreReviewController.requestReview()
+                        if let url = URL(string: "https://apps.apple.com/app/id6468891787?action=write-review") {
+                            UIApplication.shared.open(url)
+                        }
                     }
                     Spacer()
                     Button("Mixer") {
@@ -102,6 +106,9 @@ struct ContentView: View {
             }
             .padding()
         }
+        .onAppear {
+                   fetchAllPrompts()
+               }
         .sheet(isPresented: $showTipJar) {
             TipJarView()
         }
@@ -110,40 +117,52 @@ struct ContentView: View {
         }
     }
     
+    func fetchAllPrompts() {
+            let db = Firestore.firestore()
+            db.collection("Tongue Twisters").getDocuments { (snapshot, error) in
+                if let documents = snapshot?.documents {
+                    self.tongueTwisterPrompts = documents.compactMap { $0.data()["prompt"] as? String }
+                }
+            }
+        db.collection("Open Ended Questions").getDocuments { (snapshot, error) in
+            if let documents = snapshot?.documents {
+                self.openEndedPrompts = documents.compactMap { $0.data()["prompt"] as? String }
+            }
+        }
+        }
+    
     func getRandomPrompt(from collectionName: String) {
-        let db = Firestore.firestore()
-        let collectionRef = db.collection(collectionName)
-        
-        // Get the document count to choose a random document
-        collectionRef.getDocuments { (snapshot, error) in
-            guard let documents = snapshot?.documents else {
-                print("No documents found in \(collectionName)")
-                return
-            }
+        if collectionName == "Tongue Twisters" {
+            let filteredPrompts = tongueTwisterPrompts.filter { $0 != self.currentPrompt }
 
-            // Filter out the current prompt so we don't get it again
-            let filteredDocuments = documents.filter {
-                ($0.data()["prompt"] as? String) != self.currentPrompt
-            }
-            
-            guard !filteredDocuments.isEmpty else {
+            guard !filteredPrompts.isEmpty else {
                 print("No other prompts available in \(collectionName)")
                 return
             }
 
-            // Get a random document from the filtered documents
-            let randomDoc = filteredDocuments.randomElement()
-            guard let prompt = randomDoc?.data()["prompt"] as? String else {
-                print("Error retrieving prompt from \(collectionName)")
+            // Get a random prompt
+            if let randomPrompt = filteredPrompts.randomElement() {
+                DispatchQueue.main.async {
+                    self.currentPrompt = randomPrompt
+                }
+            }
+        } else if collectionName == "Open Ended Questions" {
+            let filteredPrompts = openEndedPrompts.filter { $0 != self.currentPrompt }
+
+            guard !filteredPrompts.isEmpty else {
+                print("No other prompts available in \(collectionName)")
                 return
             }
 
-            // Set the currentPrompt to the retrieved prompt
-            DispatchQueue.main.async {
-                self.currentPrompt = prompt
+            // Get a random prompt
+            if let randomPrompt = filteredPrompts.randomElement() {
+                DispatchQueue.main.async {
+                    self.currentPrompt = randomPrompt
+                }
             }
         }
-    }
+            
+        }
 }
 
 struct AnimatedBackgroundView: View {

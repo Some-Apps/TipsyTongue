@@ -23,31 +23,56 @@ struct ContentView: View {
     
     var body: some View {
         let jammer = ObservedObject(wrappedValue: audioJammer!)
-        VStack {
-            HStack {
-                Button {
-                    showHelp = true
-                } label: {
-                    Image(systemName: "questionmark.app")
+        ZStack {
+            
+            VStack {
+                HStack {
+                    Button {
+                        showHelp = true
+                    } label: {
+                        Image(systemName: "questionmark.app")
+                    }
+                    .padding([.top, .leading])
+                    .padding(.leading)
+                    
+                    Spacer()
+                    Button {
+                        showOptions = true
+                    } label: {
+                        Image(systemName: "slider.vertical.3")
+                    }
+                    .padding([.top, .trailing])
+                    .padding(.trailing)
                 }
-                .padding([.top, .leading])
-                .padding(.leading)
+                .ignoresSafeArea()
+                .fontWeight(.black)
+                .font(.title)
+                
+                
                 
                 Spacer()
                 Button {
-                    showOptions = true
+                    getRandomPrompt(from: collections.randomElement()!)
                 } label: {
-                    Image(systemName: "slider.vertical.3")
+                    VStack(spacing: 10) {
+                        Text(currentPromptCategory)
+                            .font(.title2)
+                            .underline()
+                            .bold()
+                            .foregroundStyle(.secondary)
+                        Text(currentPrompt)
+                            .font(.title3)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding(10)
+                    .foregroundStyle(.white)
+                    .background {
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(.ultraThinMaterial)
+                    }
+                    .padding()
                 }
-                .padding([.top, .trailing])
-                .padding(.trailing)
             }
-            .ignoresSafeArea()
-            .fontWeight(.black)
-            .font(.title)
-            
-            Spacer()
-            
             Button(action: {
                 if isJamming {
                     audioJammer?.stopJamming()
@@ -59,7 +84,6 @@ struct ContentView: View {
             }) {
                 Label(isJamming ? "Stop Jamming" : "Start Jamming", systemImage: "mic")
             }
-            .zIndex(1)
             .font(.largeTitle)
             .fontWeight(.black)
             .buttonStyle(.bordered)
@@ -69,29 +93,8 @@ struct ContentView: View {
                     audioJammer = AudioJammer()
                 }
             }
-            Spacer()
-            Button {
-                getRandomPrompt(from: collections.randomElement()!)
-            } label: {
-                VStack(spacing: 10) {
-                    Text(currentPromptCategory)
-                        .font(.title2)
-                        .underline()
-                        .bold()
-                        .foregroundStyle(.secondary)
-                    Text(currentPrompt)
-                        .font(.title3)
-                        .frame(maxWidth: .infinity)
-                }
-                .padding(10)
-                .foregroundStyle(.white)
-                .background {
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(.ultraThinMaterial)
-                }
-                .padding()
-            }
         }
+        
         .background(.white.opacity(0.1))
         .onAppear {
             fetchAllPrompts()

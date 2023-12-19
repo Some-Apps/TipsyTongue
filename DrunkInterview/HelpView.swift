@@ -14,7 +14,7 @@ struct HelpView: View {
                 .underline()
                 .bold()
             Text("Turn up the volume as high as you are comfortable with, tap \"Start Jamming\", and try to speak. Make sure you are using earbuds or headphones.")
-            Text("You can tap \"Tongue Twister\" or \"Open Ended Prompt\" to show a random prompt.")
+            Text("Tap the prompt at the bottom to show a new prompt.")
             Text("Tap the icon in the top right corner to change how the speech jammer works.")
         }
         .padding()

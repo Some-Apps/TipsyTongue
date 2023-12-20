@@ -34,7 +34,6 @@ struct ContentView: View {
                     }
                     .padding([.top, .leading])
                     .padding(.leading)
-                    
                     Spacer()
                     Button {
                         showOptions = true
@@ -47,7 +46,7 @@ struct ContentView: View {
                 .ignoresSafeArea()
                 .fontWeight(.black)
                 .font(.title)
-                
+                .foregroundStyle(.secondary)
                 
                 
                 Spacer()

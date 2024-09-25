@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C03719402ACBC8CB00301BE0"
-               BuildableName = "DrunkInterview.app"
-               BlueprintName = "DrunkInterview"
-               ReferencedContainer = "container:DrunkInterview.xcodeproj">
+               BuildableName = "Tipsy Tongue.app"
+               BlueprintName = "Tipsy Tongue"
+               ReferencedContainer = "container:Tipsy Tongue.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C03719402ACBC8CB00301BE0"
-            BuildableName = "DrunkInterview.app"
-            BlueprintName = "DrunkInterview"
-            ReferencedContainer = "container:DrunkInterview.xcodeproj">
+            BuildableName = "Tipsy Tongue.app"
+            BlueprintName = "Tipsy Tongue"
+            ReferencedContainer = "container:Tipsy Tongue.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <StoreKitConfigurationFileReference
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C03719402ACBC8CB00301BE0"
-            BuildableName = "DrunkInterview.app"
-            BlueprintName = "DrunkInterview"
-            ReferencedContainer = "container:DrunkInterview.xcodeproj">
+            BuildableName = "Tipsy Tongue.app"
+            BlueprintName = "Tipsy Tongue"
+            ReferencedContainer = "container:Tipsy Tongue.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

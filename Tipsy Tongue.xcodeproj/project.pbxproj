@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C009ED252ACE26DC0030A180 /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = C009ED242ACE26DC0030A180 /* AudioKit */; };
-		C03719452ACBC8CB00301BE0 /* DrunkInterviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03719442ACBC8CB00301BE0 /* DrunkInterviewApp.swift */; };
+		C03719452ACBC8CB00301BE0 /* TipsyTongueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03719442ACBC8CB00301BE0 /* TipsyTongueApp.swift */; };
 		C03719472ACBC8CB00301BE0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03719462ACBC8CB00301BE0 /* ContentView.swift */; };
 		C03719492ACBC8CC00301BE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03719482ACBC8CC00301BE0 /* Assets.xcassets */; };
 		C037194C2ACBC8CC00301BE0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C037194B2ACBC8CC00301BE0 /* Preview Assets.xcassets */; };
@@ -29,8 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C03719412ACBC8CB00301BE0 /* DrunkInterview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrunkInterview.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C03719442ACBC8CB00301BE0 /* DrunkInterviewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrunkInterviewApp.swift; sourceTree = "<group>"; };
+		C03719412ACBC8CB00301BE0 /* Tipsy Tongue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tipsy Tongue.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C03719442ACBC8CB00301BE0 /* TipsyTongueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsyTongueApp.swift; sourceTree = "<group>"; };
 		C03719462ACBC8CB00301BE0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C03719482ACBC8CC00301BE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C037194B2ACBC8CC00301BE0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 		C03719382ACBC8CB00301BE0 = {
 			isa = PBXGroup;
 			children = (
-				C03719432ACBC8CB00301BE0 /* DrunkInterview */,
+				C03719432ACBC8CB00301BE0 /* Tipsy Tongue */,
 				C03719422ACBC8CB00301BE0 /* Products */,
 				C054A6F92ACCC4FE009B0CA5 /* Frameworks */,
 			);
@@ -77,16 +77,16 @@
 		C03719422ACBC8CB00301BE0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C03719412ACBC8CB00301BE0 /* DrunkInterview.app */,
+				C03719412ACBC8CB00301BE0 /* Tipsy Tongue.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C03719432ACBC8CB00301BE0 /* DrunkInterview */ = {
+		C03719432ACBC8CB00301BE0 /* Tipsy Tongue */ = {
 			isa = PBXGroup;
 			children = (
 				C0D2ED662ACCCE81007F7052 /* Info.plist */,
-				C03719442ACBC8CB00301BE0 /* DrunkInterviewApp.swift */,
+				C03719442ACBC8CB00301BE0 /* TipsyTongueApp.swift */,
 				C03719462ACBC8CB00301BE0 /* ContentView.swift */,
 				C073E4452AD0875800C1A103 /* OptionsView.swift */,
 				C0FFA1B32B324B7B00D71021 /* HelpView.swift */,
@@ -98,7 +98,7 @@
 				C054A6EC2ACCBDBF009B0CA5 /* GoogleService-Info.plist */,
 				C037194A2ACBC8CC00301BE0 /* Preview Content */,
 			);
-			path = DrunkInterview;
+			path = "Tipsy Tongue";
 			sourceTree = "<group>";
 		};
 		C037194A2ACBC8CC00301BE0 /* Preview Content */ = {
@@ -120,9 +120,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C03719402ACBC8CB00301BE0 /* DrunkInterview */ = {
+		C03719402ACBC8CB00301BE0 /* Tipsy Tongue */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C037194F2ACBC8CC00301BE0 /* Build configuration list for PBXNativeTarget "DrunkInterview" */;
+			buildConfigurationList = C037194F2ACBC8CC00301BE0 /* Build configuration list for PBXNativeTarget "Tipsy Tongue" */;
 			buildPhases = (
 				C037193D2ACBC8CB00301BE0 /* Sources */,
 				C037193E2ACBC8CB00301BE0 /* Frameworks */,
@@ -132,7 +132,7 @@
 			);
 			dependencies = (
 			);
-			name = DrunkInterview;
+			name = "Tipsy Tongue";
 			packageProductDependencies = (
 				C009ED242ACE26DC0030A180 /* AudioKit */,
 				C0C808932AD7798F0070E679 /* FirebaseAnalytics */,
@@ -144,7 +144,7 @@
 				C0C808A02AD78A460070E679 /* AlertToast */,
 			);
 			productName = SpeechJammer;
-			productReference = C03719412ACBC8CB00301BE0 /* DrunkInterview.app */;
+			productReference = C03719412ACBC8CB00301BE0 /* Tipsy Tongue.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -162,7 +162,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C037193C2ACBC8CB00301BE0 /* Build configuration list for PBXProject "DrunkInterview" */;
+			buildConfigurationList = C037193C2ACBC8CB00301BE0 /* Build configuration list for PBXProject "Tipsy Tongue" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -180,7 +180,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C03719402ACBC8CB00301BE0 /* DrunkInterview */,
+				C03719402ACBC8CB00301BE0 /* Tipsy Tongue */,
 			);
 		};
 /* End PBXProject section */
@@ -209,7 +209,7 @@
 				C0FFA1B42B324B7B00D71021 /* HelpView.swift in Sources */,
 				C073E4462AD0875800C1A103 /* OptionsView.swift in Sources */,
 				C0D2ED6A2ACCD49B007F7052 /* TipJarViewModel.swift in Sources */,
-				C03719452ACBC8CB00301BE0 /* DrunkInterviewApp.swift in Sources */,
+				C03719452ACBC8CB00301BE0 /* TipsyTongueApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,7 +342,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_ASSET_PATHS = "\"DrunkInterview/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Tipsy Tongue/Preview Content\"";
 				DEVELOPMENT_TEAM = 5SGZH379X4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -375,7 +375,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_ASSET_PATHS = "\"DrunkInterview/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Tipsy Tongue/Preview Content\"";
 				DEVELOPMENT_TEAM = 5SGZH379X4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -404,7 +404,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C037193C2ACBC8CB00301BE0 /* Build configuration list for PBXProject "DrunkInterview" */ = {
+		C037193C2ACBC8CB00301BE0 /* Build configuration list for PBXProject "Tipsy Tongue" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C037194D2ACBC8CC00301BE0 /* Debug */,
@@ -413,7 +413,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C037194F2ACBC8CC00301BE0 /* Build configuration list for PBXNativeTarget "DrunkInterview" */ = {
+		C037194F2ACBC8CC00301BE0 /* Build configuration list for PBXNativeTarget "Tipsy Tongue" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C03719502ACBC8CC00301BE0 /* Debug */,

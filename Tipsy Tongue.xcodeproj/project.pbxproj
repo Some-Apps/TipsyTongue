@@ -346,7 +346,7 @@
 				DEVELOPMENT_TEAM = 5SGZH379X4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DrunkInterview/Info.plist;
+				INFOPLIST_FILE = "Tipsy Tongue/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Speech Jammer";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone to record audio to play back.";
@@ -379,7 +379,7 @@
 				DEVELOPMENT_TEAM = 5SGZH379X4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DrunkInterview/Info.plist;
+				INFOPLIST_FILE = "Tipsy Tongue/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Speech Jammer";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone to record audio to play back.";

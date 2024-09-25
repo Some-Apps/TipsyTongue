@@ -1,12 +1,8 @@
-//
-//  ContentView.swift
-//  SpeechJammer
-//
-//  Created by Jared Jones on 10/2/23.
-//
-
+import AlertToast
 import FirebaseFirestore
 import SwiftUI
+
+
 struct ContentView: View {
     @Environment(\.requestReview) private var requestReview
     @State private var tongueTwisterPrompts = [String]()
@@ -18,6 +14,9 @@ struct ContentView: View {
     @AppStorage("currentPrompt") var currentPrompt = "Peter Piper picked a peck of pickled peppers. A peck of pickled peppers Peter Piper picked. If Peter Piper picked a peck of pickled peppers, Where’s the peck of pickled peppers Peter Piper picked?"
     @AppStorage("currentPromptCategory") var currentPromptCategory = "Tongue Twister"
     @State private var audioJammer: AudioJammer? = AudioJammer()
+    @AppStorage("jamSessions") var jamSessions = 0
+    @State private var isProcessing = false
+
     let collections = ["Tongue Twisters", "Open Ended"]
     
     
@@ -73,20 +72,37 @@ struct ContentView: View {
                 }
             }
             Button(action: {
+                isProcessing = true
                 if isJamming {
-                    audioJammer?.stopJamming()
-                    audioJammer = AudioJammer()
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        audioJammer?.stopJamming()
+                        DispatchQueue.main.async {
+                            audioJammer = AudioJammer()
+                            jamSessions += 1
+                            if jamSessions % 20 == 0 {
+                                requestReview()
+                            }
+                            isJamming.toggle()
+                            isProcessing = false
+                        }
+                    }
                 } else {
-                    audioJammer?.startJamming()
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        audioJammer?.startJamming()
+                        DispatchQueue.main.async {
+                            isJamming.toggle()
+                            isProcessing = false
+                        }
+                    }
                 }
-                isJamming.toggle()
             }) {
-                Label(isJamming ? "Stop Jamming" : "Start Jamming", systemImage: "mic")
+                    Label(isJamming ? "Stop Jamming" : "Start Jamming", systemImage: "mic")
             }
             .font(.largeTitle)
             .fontWeight(.black)
             .buttonStyle(.bordered)
-            .tint(isJamming ? .red : .green)
+            .tint(isProcessing ? .gray : (isJamming ? .red : .green))
+
             .onChange(of: resetJammer) { newValue in
                 if newValue {
                     audioJammer = AudioJammer()
@@ -104,14 +120,10 @@ struct ContentView: View {
         .sheet(isPresented: $showOptions) {
             OptionsView()
         }
-        
-    }
-    
-    private func presentReview() {
-        Task {
-            try await Task.sleep(for: .seconds(2))
-            await requestReview()
+        .toast(isPresenting: $isProcessing) {
+            AlertToast(displayMode: .alert, type: .loading)
         }
+        
     }
     
     func fetchAllPrompts() {

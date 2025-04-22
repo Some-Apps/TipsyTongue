@@ -13,6 +13,7 @@
 		C03719492ACBC8CC00301BE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03719482ACBC8CC00301BE0 /* Assets.xcassets */; };
 		C037194C2ACBC8CC00301BE0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C037194B2ACBC8CC00301BE0 /* Preview Assets.xcassets */; };
 		C03719572ACBCF1600301BE0 /* AudioJammer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03719562ACBCF1600301BE0 /* AudioJammer.swift */; };
+		C040052E2DB83713009B511B /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C040052D2DB83713009B511B /* SupportView.swift */; };
 		C054A6ED2ACCBDBF009B0CA5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C054A6EC2ACCBDBF009B0CA5 /* GoogleService-Info.plist */; };
 		C073E4462AD0875800C1A103 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C073E4452AD0875800C1A103 /* OptionsView.swift */; };
 		C0C808942AD7798F0070E679 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C0C808932AD7798F0070E679 /* FirebaseAnalytics */; };
@@ -35,6 +36,7 @@
 		C03719482ACBC8CC00301BE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C037194B2ACBC8CC00301BE0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C03719562ACBCF1600301BE0 /* AudioJammer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioJammer.swift; sourceTree = "<group>"; };
+		C040052D2DB83713009B511B /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
 		C054A6EC2ACCBDBF009B0CA5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C073E4452AD0875800C1A103 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		C073E4472AD09C5C00C1A103 /* Tipsy Tongue: Speech Jammer.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Tipsy Tongue: Speech Jammer.storekit"; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				C0D2ED662ACCCE81007F7052 /* Info.plist */,
 				C03719442ACBC8CB00301BE0 /* TipsyTongueApp.swift */,
 				C03719462ACBC8CB00301BE0 /* ContentView.swift */,
+				C040052D2DB83713009B511B /* SupportView.swift */,
 				C073E4452AD0875800C1A103 /* OptionsView.swift */,
 				C0FFA1B32B324B7B00D71021 /* HelpView.swift */,
 				C03719562ACBCF1600301BE0 /* AudioJammer.swift */,
@@ -207,6 +210,7 @@
 				C0D2ED6C2ACCD570007F7052 /* TipJarView.swift in Sources */,
 				C03719572ACBCF1600301BE0 /* AudioJammer.swift in Sources */,
 				C0FFA1B42B324B7B00D71021 /* HelpView.swift in Sources */,
+				C040052E2DB83713009B511B /* SupportView.swift in Sources */,
 				C073E4462AD0875800C1A103 /* OptionsView.swift in Sources */,
 				C0D2ED6A2ACCD49B007F7052 /* TipJarViewModel.swift in Sources */,
 				C03719452ACBC8CB00301BE0 /* TipsyTongueApp.swift in Sources */,
@@ -355,6 +359,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,6 +393,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

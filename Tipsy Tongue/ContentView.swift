@@ -21,6 +21,7 @@ struct ContentView: View {
     
     
     var body: some View {
+        NavigationView {
         let jammer = ObservedObject(wrappedValue: audioJammer!)
         ZStack {
             
@@ -38,6 +39,11 @@ struct ContentView: View {
                         showOptions = true
                     } label: {
                         Image(systemName: "slider.vertical.3")
+                    }
+                    .padding([.top, .trailing])
+                    .padding(.trailing)
+                    NavigationLink(destination: SupportView()) {
+                        Image(systemName: "heart.circle")
                     }
                     .padding([.top, .trailing])
                     .padding(.trailing)
@@ -124,6 +130,7 @@ struct ContentView: View {
             AlertToast(displayMode: .alert, type: .loading)
         }
         
+    }
     }
     
     func fetchAllPrompts() {

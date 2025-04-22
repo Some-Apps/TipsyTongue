@@ -1,0 +1,86 @@
+import SwiftUI
+
+struct SupportView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    enum DonationType: String, CaseIterable, Identifiable {
+        case monthly = "Monthly"
+        case oneTime = "One-Time"
+        var id: String { rawValue }
+    }
+    
+    let oneTimePrices: [Double] = [0.99, 1.99, 2.99, 3.99, 4.99, 5.99, 6.99, 7.99, 8.99, 9.99]
+    let monthlyPrices: [Double] = [0.99, 1.99, 2.99, 3.99, 4.99, 5.99, 6.99, 7.99, 8.99, 9.99]
+    
+    @State private var donationType: DonationType = .monthly
+    @State private var selectedIndex: Double = 0
+
+    var body: some View {
+        NavigationView {
+            ZStack(alignment: .top) {
+                Image("supportBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                    .opacity(0.2)
+                ScrollView {
+                    VStack(spacing: 50) {
+                        Text("Support The Developer")
+                            .font(.title)
+                        Text("I hope you're enjoying the app. Please consider donating a small amount to help me continue developing more free apps. Thank you!")
+                        
+                        Picker("Donation Type", selection: $donationType) {
+                            ForEach(DonationType.allCases) { type in
+                                Text(type.rawValue).tag(type)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        let prices = donationType == .oneTime ? oneTimePrices : monthlyPrices
+                        VStack {
+                            Text(verbatim: String(format: "$%.2f", prices[Int(selectedIndex)]))
+                                .font(.title)
+                            
+                            Text(donationType == .monthly ? "MONTHLY" : "ONE TIME")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            
+                        }
+                        Slider(value: $selectedIndex, in: 0...Double(prices.count - 1), step: 1)
+                        VStack {
+                            Button("Donate") {
+                                
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.green)
+                            .font(.title)
+                            Button("Restore Purchase") {
+                                
+                            }
+                        }
+                        
+                        Text("Apple will charge you \(String(format: "$%.2f", prices[Int(selectedIndex)])) once you complete your purchase.")
+                            .font(.footnote)
+                        HStack {
+                            Link(destination: URL(string: "https://google.com")!) {
+                                Text("Privacy Policy")
+                            }
+                            Text("|")
+                            Link(destination: URL(string: "https://google.com")!) {
+                                Text("Terms & Conditions")
+                            }
+                        }
+                        .font(.footnote)
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 50)
+                    .frame(width: UIScreen.main.bounds.width, alignment: .center)
+                }
+            
+            }
+        }
+    }
+}
+
+#Preview {
+    SupportView()
+}

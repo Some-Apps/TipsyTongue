@@ -33,20 +33,20 @@ struct ContentView: View {
                         Image(systemName: "questionmark.app")
                     }
                     .padding([.top, .leading])
-                    .padding(.leading)
+
+                    NavigationLink(destination: SupportView()) {
+                        Image(systemName: "heart.circle")
+                    }
+                    .padding([.top, .leading])
+
                     Spacer()
+
                     Button {
                         showOptions = true
                     } label: {
                         Image(systemName: "slider.vertical.3")
                     }
                     .padding([.top, .trailing])
-                    .padding(.trailing)
-                    NavigationLink(destination: SupportView()) {
-                        Image(systemName: "heart.circle")
-                    }
-                    .padding([.top, .trailing])
-                    .padding(.trailing)
                 }
                 .ignoresSafeArea()
                 .fontWeight(.black)

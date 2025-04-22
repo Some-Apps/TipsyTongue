@@ -58,14 +58,14 @@ struct SupportView: View {
                             }
                         }
                         
-                        Text("Apple will charge you \(String(format: "$%.2f", prices[Int(selectedIndex)])) once you complete your purchase.")
+                        Text("Apple will charge you \(String(format: "$%.2f", prices[Int(selectedIndex)])) \(donationType == .monthly ? "per month" : "once") after you complete your purchase.")
                             .font(.footnote)
                         HStack {
-                            Link(destination: URL(string: "https://google.com")!) {
+                            Link(destination: URL(string: "https://sites.google.com/view/someapps/speech-jammer")!) {
                                 Text("Privacy Policy")
                             }
                             Text("|")
-                            Link(destination: URL(string: "https://google.com")!) {
+                            Link(destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!) {
                                 Text("Terms & Conditions")
                             }
                         }

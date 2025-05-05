@@ -1,4 +1,5 @@
 import SwiftUI
+import StoreKit
 
 struct SupportView: View {
     @Environment(\.dismiss) private var dismiss
@@ -14,6 +15,13 @@ struct SupportView: View {
     
     @State private var donationType: DonationType = .monthly
     @State private var selectedIndex: Double = 0
+
+    @State private var products: [Product] = []
+    @State private var purchaseResult: Product.PurchaseResult?
+    
+    // TODO: Replace these identifiers with your App Store Connect product IDs
+    private var oneTimeProductIDs: [String] = ["donate1", "donate2", "donate3", "donate4", "donate5", "donate6", "donate7", "donate8", "donate9", "donate10"]
+    private var monthlyProductIDs: [String] = ["donateMonthly1", "donateMonthly2", "donateMonthly3", "donateMonthly4", "donateMonthly5", "donateMonthly6", "donateMonthly7", "donateMonthly8", "donateMonthly9", "donateMonthly10"]
 
     var body: some View {
         NavigationView {
@@ -48,7 +56,33 @@ struct SupportView: View {
                         Slider(value: $selectedIndex, in: 0...Double(prices.count - 1), step: 1)
                         VStack {
                             Button("Donate") {
-                                
+                                let idx = Int(selectedIndex)
+                                guard idx < products.count else { return }
+                                let product = products[idx]
+                                Task {
+                                    do {
+                                        let result = try await product.purchase()
+                                        purchaseResult = result
+                                        switch result {
+                                        case .success(let verification):
+                                            switch verification {
+                                            case .verified(let transaction):
+                                                await transaction.finish()
+                                                // TODO: Notify user of success
+                                            case .unverified(_, let error):
+                                                print("Transaction could not be verified: \(error)")
+                                            }
+                                        case .pending:
+                                            print("Purchase pending")
+                                        case .userCancelled:
+                                            print("User cancelled purchase")
+                                        @unknown default:
+                                            break
+                                        }
+                                    } catch {
+                                        print("Purchase failed: \(error)")
+                                    }
+                                }
                             }
                             .buttonStyle(.borderedProminent)
                             .tint(.green)
@@ -74,6 +108,14 @@ struct SupportView: View {
                     .padding(.horizontal)
                     .padding(.top, 50)
                     .frame(width: UIScreen.main.bounds.width, alignment: .center)
+                }
+                .task(id: donationType) {
+                    do {
+                        let ids = donationType == .monthly ? monthlyProductIDs : oneTimeProductIDs
+                        products = try await Product.products(for: ids)
+                    } catch {
+                        print("Failed to fetch products: \(error)")
+                    }
                 }
             
             }

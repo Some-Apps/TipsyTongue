@@ -15,6 +15,81 @@
   ],
   "products" : [
     {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "6744946475",
+      "localizations" : [
+        {
+          "description" : "Support the developer",
+          "displayName" : "Donation",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "donate1",
+      "referenceName" : "Donate1",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "6745231740",
+      "localizations" : [
+        {
+          "description" : "Support the developer",
+          "displayName" : "Donation",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "donate2",
+      "referenceName" : "Donate2",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "6745231767",
+      "localizations" : [
+        {
+          "description" : "Support the developer",
+          "displayName" : "Donation",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "donate3",
+      "referenceName" : "Donate3",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "6745231742",
+      "localizations" : [
+        {
+          "description" : "Support the developer",
+          "displayName" : "Donation",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "donate4",
+      "referenceName" : "Donate4",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "6745231632",
+      "localizations" : [
+        {
+          "description" : "Support the developer",
+          "displayName" : "Donation",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "donate5",
+      "referenceName" : "Donate5",
+      "type" : "Consumable"
+    },
+    {
       "displayPrice" : "9.99",
       "familyShareable" : false,
       "internalID" : "6468891828",
@@ -64,7 +139,7 @@
     "_applicationInternalID" : "6468891787",
     "_developerTeamID" : "5SGZH379X4",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 767053111.40010798,
+    "_lastSynchronizedDate" : 767656765.07027602,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -116,7 +191,43 @@
     ]
   },
   "subscriptionGroups" : [
+    {
+      "id" : "21673571",
+      "localizations" : [
 
+      ],
+      "name" : "Donate",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6745231747",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Support the developer",
+              "displayName" : "Monthly Donation",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "donateMonthly2",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Donate Monthly 2",
+          "subscriptionGroupID" : "21673571",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
   ],
   "version" : {
     "major" : 4,

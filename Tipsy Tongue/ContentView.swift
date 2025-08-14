@@ -85,7 +85,7 @@ struct ContentView: View {
                         DispatchQueue.main.async {
                             audioJammer = AudioJammer()
                             jamSessions += 1
-                            if jamSessions % 20 == 0 {
+                            if jamSessions % 5 == 0 {
                                 requestReview()
                             }
                             isJamming.toggle()

@@ -3,6 +3,8 @@ import StoreKit
 
 struct SupportView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.requestReview) private var requestReview
+    @AppStorage("supportViewVisits") private var supportViewVisits = 0
 
     enum DonationType: String, CaseIterable, Identifiable {
         case monthly = "Monthly"
@@ -115,6 +117,13 @@ struct SupportView: View {
                         products = try await Product.products(for: ids)
                     } catch {
                         print("Failed to fetch products: \(error)")
+                    }
+                }
+                .onAppear {
+                    supportViewVisits += 1
+                    // Request review on every 3rd visit to support view
+                    if supportViewVisits % 3 == 0 {
+                        requestReview()
                     }
                 }
             

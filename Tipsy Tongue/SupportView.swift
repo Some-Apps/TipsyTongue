@@ -21,6 +21,11 @@ struct SupportView: View {
     @State private var products: [Product] = []
     @State private var purchaseResult: Product.PurchaseResult?
     
+    // Computed property for current prices to ensure consistency
+    private var currentPrices: [Double] {
+        donationType == .oneTime ? oneTimePrices : monthlyPrices
+    }
+    
     // TODO: Replace these identifiers with your App Store Connect product IDs
     private var oneTimeProductIDs: [String] = ["donate1", "donate2", "donate3", "donate4", "donate5", "donate6", "donate7", "donate8", "donate9", "donate10"]
     private var monthlyProductIDs: [String] = ["donateMonthly1", "donateMonthly2", "donateMonthly3", "donateMonthly4", "donateMonthly5", "donateMonthly6", "donateMonthly7", "donateMonthly8", "donateMonthly9", "donateMonthly10"]
@@ -45,9 +50,8 @@ struct SupportView: View {
                             }
                         }
                         .pickerStyle(.segmented)
-                        let prices = donationType == .oneTime ? oneTimePrices : monthlyPrices
                         VStack {
-                            Text(verbatim: String(format: "$%.2f", prices[Int(selectedIndex)]))
+                            Text(verbatim: String(format: "$%.2f", currentPrices[Int(selectedIndex)]))
                                 .font(.title)
                             
                             Text(donationType == .monthly ? "MONTHLY" : "ONE TIME")
@@ -55,7 +59,7 @@ struct SupportView: View {
                                 .foregroundColor(.secondary)
                             
                         }
-                        Slider(value: $selectedIndex, in: 0...Double(prices.count - 1), step: 1)
+                        Slider(value: $selectedIndex, in: 0...Double(currentPrices.count - 1), step: 1)
                         VStack {
                             Button("Donate") {
                                 let idx = Int(selectedIndex)
@@ -94,7 +98,7 @@ struct SupportView: View {
                             }
                         }
                         
-                        Text("Apple will charge you \(String(format: "$%.2f", prices[Int(selectedIndex)])) \(donationType == .monthly ? "per month" : "once") after you complete your purchase.")
+                        Text("Apple will charge you \(String(format: "$%.2f", currentPrices[Int(selectedIndex)])) \(donationType == .monthly ? "per month" : "once") after you complete your purchase.")
                             .font(.footnote)
                         HStack {
                             Link(destination: URL(string: "https://sites.google.com/view/someapps/speech-jammer")!) {
@@ -118,6 +122,10 @@ struct SupportView: View {
                     } catch {
                         print("Failed to fetch products: \(error)")
                     }
+                }
+                .onChange(of: donationType) { _ in
+                    // Reset selectedIndex when donation type changes to prevent out-of-bounds access
+                    selectedIndex = 0
                 }
                 .onAppear {
                     supportViewVisits += 1
